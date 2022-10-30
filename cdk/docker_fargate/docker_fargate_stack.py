@@ -32,8 +32,8 @@ def create_id() -> str:
     return get_required_env(STACK_NAME_PREFIX)+ID_SUFFIX
 
 
-CONTAINER_ENV = "CONTAINER_ENV" # name of env passed from GitHub action
-ENV_NAME = "ENV" # name of env as seen in container
+CONTAINER_ENV = "R_CONFIG_ACTIVE" # name of env passed from GitHub action
+ENV_NAME = "R_CONFIG_ACTIVE"
 
 def get_vpc_name() -> str:
     return get_required_env(STACK_NAME_PREFIX)+VPC_SUFFIX
@@ -76,8 +76,7 @@ class DockerFargateStack(Stack):
         cluster = ecs.Cluster(self, get_cluster_name(), vpc=vpc, container_insights=True)
 
         secrets = {
-        # uncomment the following to add a secret as an environment variable
-        #	SECRETS_MANAGER_ENV_NAME: create_secret(self, get_secret_name())
+        	SECRETS_MANAGER_ENV_NAME: create_secret(self, get_secret_name())
         }
 
         env_vars = {}
@@ -103,8 +102,10 @@ class DockerFargateStack(Stack):
             task_image_options=task_image_options,
             memory_limit_mib=1024,      # Default is 512
             public_load_balancer=True)  # Default is False
-            #redirect_http=True) #TODO adding this causes the error,
-            #"The HTTPS protocol must be used when redirecting HTTP traffic"
+            # TODO TLS
+            #protocol=elbv2.ApplicationProtocol.HTTPS,
+            #domain_name="TBD", # The domain name for the service, e.g. “api.example.com.”
+            #domain_zone="TBD") #  The Route53 hosted zone for the domain, e.g. “example.com.”
 
         if False: # enable/disable autoscaling
             scalable_target = load_balanced_fargate_service.service.auto_scale_task_count(
