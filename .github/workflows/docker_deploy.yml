@@ -24,6 +24,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+          
         # Authenticate to AWS using GitHub OIDC
       - name: Assume AWS Role
         uses: aws-actions/configure-aws-credentials@v1
