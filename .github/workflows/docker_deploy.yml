@@ -1,7 +1,7 @@
 # Workflow derived from https://github.com/r-lib/actions/tree/master/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 
-name: Create and publish a Docker image
+name: Deploy to AWS
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
   cdk-deploy:
     runs-on: ubuntu-latest
     permissions:
-      it-token: write
+      id-token: write
       contents: read
       packages: write
 
