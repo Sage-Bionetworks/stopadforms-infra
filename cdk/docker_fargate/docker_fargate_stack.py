@@ -7,6 +7,7 @@ from aws_cdk import (Stack,
 
 import os
 import aws_cdk.aws_secretsmanager as sm
+from aws_cdk.core import Duration
 from constructs import Construct
 
 STACK_NAME_PREFIX = "STACK_NAME_PREFIX"
