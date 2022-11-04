@@ -3,7 +3,7 @@ from aws_cdk import (Stack,
 	aws_ec2 as ec2, aws_ecs as ecs,
 	aws_ecs_patterns as ecs_patterns,
 	aws_ssm as ssm,
-	core,
+	Duration,
 	Tags)
 
 import os
@@ -110,7 +110,7 @@ class DockerFargateStack(Stack):
             
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
-        load_balanced_fargate_service.target_group.configure_health_check(interval=core.Duration.seconds(60), timeout=core.Duration.seconds(60))
+        load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(60), timeout=Duration.seconds(60))
 
         if False: # enable/disable autoscaling
             scalable_target = load_balanced_fargate_service.service.auto_scale_task_count(
