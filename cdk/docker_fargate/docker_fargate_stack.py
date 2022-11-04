@@ -106,6 +106,10 @@ class DockerFargateStack(Stack):
             #protocol=elbv2.ApplicationProtocol.HTTPS,
             #domain_name="TBD", # The domain name for the service, e.g. “api.example.com.”
             #domain_zone="TBD") #  The Route53 hosted zone for the domain, e.g. “example.com.”
+            
+            
+        # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
+        load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(60), timeout=Duration.seconds(60))
 
         if False: # enable/disable autoscaling
             scalable_target = load_balanced_fargate_service.service.auto_scale_task_count(
