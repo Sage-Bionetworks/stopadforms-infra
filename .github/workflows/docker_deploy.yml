@@ -13,6 +13,8 @@ env:
   COST_CENTER: "NO PROGRAM / 000000"
   STACK_NAME_PREFIX: stopadforms
   R_CONFIG_ACTIVE: 'aws-testing'
+  HOSTED_ZONE: synapse.org
+  HOST_NAME: test.stopadforms-shiny.synapse.org
  
 
 jobs:

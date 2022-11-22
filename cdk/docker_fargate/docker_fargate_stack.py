@@ -19,6 +19,8 @@ DOCKER_IMAGE_NAME = "DOCKER_IMAGE"
 COST_CENTER = "COST_CENTER"
 COST_CENTER_TAG_NAME = "CostCenter"
 PORT_NUMBER = "PORT"
+HOST_NAME = "HOST_NAME"
+HOSTED_ZONE = "HOSTED_ZONE"
 
 # The name of the environment variable that will hold the secrets
 SECRETS_MANAGER_ENV_NAME = "SECRETS_MANAGER_SECRETS"
@@ -65,6 +67,12 @@ def create_secret(scope: Construct, name: str) -> str:
     return ecs.Secret.from_secrets_manager(isecret)
     # see also: https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_ecs/Secret.html
     # see also: ecs.Secret.from_ssm_parameter(ssm.IParameter(parameter_name=name))
+    
+def get_hosted_zone() -> str:
+	return os.getenv(HOSTED_ZONE)
+	
+def get_host_name() -> str:
+	return os.getenv(HOST_NAME)
 
 class DockerFargateStack(Stack):
 
@@ -103,10 +111,10 @@ class DockerFargateStack(Stack):
             task_image_options=task_image_options,
             memory_limit_mib=1024,      # Default is 512
             public_load_balancer=True)  # Default is False
-            # TODO TLS
-            #protocol=elbv2.ApplicationProtocol.HTTPS,
-            #domain_name="TBD", # The domain name for the service, e.g. “api.example.com.”
-            #domain_zone="TBD") #  The Route53 hosted zone for the domain, e.g. “example.com.”
+            # TLS:
+            protocol=elbv2.ApplicationProtocol.HTTPS,
+            domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
+            domain_zone=get_hosted_zone()) #  The Route53 hosted zone for the domain, e.g. “example.com.”
             
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
