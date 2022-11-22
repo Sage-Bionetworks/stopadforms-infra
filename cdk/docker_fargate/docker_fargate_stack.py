@@ -110,7 +110,7 @@ class DockerFargateStack(Stack):
             desired_count=1,            # Number of copies of the 'task' (i.e. the app') running behind the ALB
             task_image_options=task_image_options,
             memory_limit_mib=1024,      # Default is 512
-            public_load_balancer=True)  # Default is False
+            public_load_balancer=True,  # Default is False
             # TLS:
             protocol=elbv2.ApplicationProtocol.HTTPS,
             domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
