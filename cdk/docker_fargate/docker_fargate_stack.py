@@ -5,7 +5,7 @@ from aws_cdk import (Stack,
 	aws_ecs_patterns as ecs_patterns,
 	aws_ssm as ssm,
 	aws_elasticloadbalancingv2 as elbv2,
-	aws_cdk.aws_route53 as r53,
+	aws_route53 as r53,
 	Duration,
 	Tags)
 
@@ -23,7 +23,8 @@ COST_CENTER = "COST_CENTER"
 COST_CENTER_TAG_NAME = "CostCenter"
 PORT_NUMBER = "PORT"
 HOST_NAME = "HOST_NAME"
-HOSTED_ZONE = "HOSTED_ZONE"
+HOSTED_ZONE_NAME = "HOSTED_ZONE_NAME"
+HOSTED_ZONE_ID = "HOSTED_ZONE_ID"
 
 # The name of the environment variable that will hold the secrets
 SECRETS_MANAGER_ENV_NAME = "SECRETS_MANAGER_SECRETS"
@@ -71,8 +72,11 @@ def create_secret(scope: Construct, name: str) -> str:
     # see also: https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_ecs/Secret.html
     # see also: ecs.Secret.from_ssm_parameter(ssm.IParameter(parameter_name=name))
     
-def get_hosted_zone() -> str:
-	return os.getenv(HOSTED_ZONE)
+def get_hosted_zone_name() -> str:
+	return os.getenv(HOSTED_ZONE_NAME)
+	
+def get_hosted_zone_id() -> str:
+	return os.getenv(HOSTED_ZONE_ID)
 	
 def get_host_name() -> str:
 	return os.getenv(HOST_NAME)
@@ -117,7 +121,7 @@ class DockerFargateStack(Stack):
             # TLS:
             protocol=elbv2.ApplicationProtocol.HTTPS,
             domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
-            domain_zone=r53.IHostedZone(get_hosted_zone())) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
+            domain_zone=r53.IHostedZone(hosted_zone_id=get_hosted_zone_id(), zone_name=get_hosted_zone_name())) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
         load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(120), timeout=Duration.seconds(60))
