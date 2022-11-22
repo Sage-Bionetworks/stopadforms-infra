@@ -106,7 +106,7 @@ class DockerFargateStack(Stack):
     	    	   secrets = secrets,
     	    	   container_port = get_port())
 
-        zone = r53.PublicHostedZone("HostedZone",zone_name=get_hosted_zone_name(), id=get_hosted_zone_id())
+        zone = r53.PublicHostedZone.from_public_hosted_zone_id(scope, get_hosted_zone_id())
         
         #
         # for options to pass to ApplicationLoadBalancedTaskImageOptions see:
