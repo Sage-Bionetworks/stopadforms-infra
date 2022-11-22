@@ -106,8 +106,8 @@ class DockerFargateStack(Stack):
     	    	   secrets = secrets,
     	    	   container_port = get_port())
 
-        zone = r53.PublicHostedZone.from_public_hosted_zone_id(self, id=stack_id+"_zone", public_hosted_zone_id=get_hosted_zone_id())
-        
+        zone = r53.PublicHostedZone.from_public_hosted_zone_attributes(self, id=stack_id+"_zone", hosted_zone_id=get_hosted_zone_id(), zone_name=get_hosted_zone_name())
+ 
         #
         # for options to pass to ApplicationLoadBalancedTaskImageOptions see:
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_ecs_patterns/ApplicationLoadBalancedTaskImageOptions.html#aws_cdk.aws_ecs_patterns.ApplicationLoadBalancedTaskImageOptions
