@@ -106,6 +106,8 @@ class DockerFargateStack(Stack):
     	    	   secrets = secrets,
     	    	   container_port = get_port())
 
+        zone = r53.PublicHostedZone("HostedZone",zone_name=get_hosted_zone_name())
+        
         #
         # for options to pass to ApplicationLoadBalancedTaskImageOptions see:
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_ecs_patterns/ApplicationLoadBalancedTaskImageOptions.html#aws_cdk.aws_ecs_patterns.ApplicationLoadBalancedTaskImageOptions
@@ -121,7 +123,7 @@ class DockerFargateStack(Stack):
             # TLS:
             protocol=elbv2.ApplicationProtocol.HTTPS,
             domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
-            domain_zone=r53.IHostedZone(hosted_zone_id=get_hosted_zone_id(), zone_name=get_hosted_zone_name())) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
+            domain_zone=zone) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
         load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(120), timeout=Duration.seconds(60))
