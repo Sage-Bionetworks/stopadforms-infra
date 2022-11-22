@@ -1,8 +1,10 @@
 
 from aws_cdk import (Stack,
-	aws_ec2 as ec2, aws_ecs as ecs,
+	aws_ec2 as ec2, 
+	aws_ecs as ecs,
 	aws_ecs_patterns as ecs_patterns,
 	aws_ssm as ssm,
+	aws_elasticloadbalancingv2 as elbv2,
 	Duration,
 	Tags)
 
