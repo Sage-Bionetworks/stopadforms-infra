@@ -5,6 +5,7 @@ from aws_cdk import (Stack,
 	aws_ecs_patterns as ecs_patterns,
 	aws_ssm as ssm,
 	aws_elasticloadbalancingv2 as elbv2,
+	aws_cdk.aws_route53 as r53,
 	Duration,
 	Tags)
 
@@ -116,8 +117,7 @@ class DockerFargateStack(Stack):
             # TLS:
             protocol=elbv2.ApplicationProtocol.HTTPS,
             domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
-            domain_zone=get_hosted_zone()) #  The Route53 hosted zone for the domain, e.g. “example.com.”
-            
+            domain_zone=r53.IHostedZone(get_hosted_zone())) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
         load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(120), timeout=Duration.seconds(60))
