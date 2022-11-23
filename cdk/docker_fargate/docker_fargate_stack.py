@@ -106,7 +106,7 @@ class DockerFargateStack(Stack):
     	    	   secrets = secrets,
     	    	   container_port = get_port())
 
-        zone = r53.PublicHostedZone.from_public_hosted_zone_attributes(self, id=stack_id+"_zone", hosted_zone_id=get_hosted_zone_id(), zone_name=get_hosted_zone_name())
+        #zone = r53.PublicHostedZone.from_public_hosted_zone_attributes(self, id=stack_id+"_zone", hosted_zone_id=get_hosted_zone_id(), zone_name=get_hosted_zone_name())
  
         #
         # for options to pass to ApplicationLoadBalancedTaskImageOptions see:
@@ -119,11 +119,11 @@ class DockerFargateStack(Stack):
             desired_count=1,            # Number of copies of the 'task' (i.e. the app') running behind the ALB
             task_image_options=task_image_options,
             memory_limit_mib=1024,      # Default is 512
-            public_load_balancer=True,  # Default is False
+            public_load_balancer=True)  # Default is False
             # TLS:
-            protocol=elbv2.ApplicationProtocol.HTTPS,
-            domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
-            domain_zone=zone) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
+            #protocol=elbv2.ApplicationProtocol.HTTPS,
+            #domain_name=get_host_name(), # The domain name for the service, e.g. “api.example.com.”
+            #domain_zone=zone) #  The Route53 hosted zone for the domain, e.g. “example.com.”        
             
         # https://docs.aws.amazon.com/cdk/api/v1/python/aws_cdk.aws_elasticloadbalancingv2/ApplicationTargetGroup.html#aws_cdk.aws_elasticloadbalancingv2.ApplicationTargetGroup    
         load_balanced_fargate_service.target_group.configure_health_check(interval=Duration.seconds(120), timeout=Duration.seconds(60))

@@ -35,7 +35,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-          role-to-assume: arn:aws:iam::449435941126:role/github-oidc-sage-bionetwo-ProviderRoleorganization-JYEP5VLBM0OD
+          #role-to-assume: arn:aws:iam::449435941126:role/github-oidc-sage-bionetwo-ProviderRoleorganization-JYEP5VLBM0OD
+          role-to-assume:  arn:aws:iam::449435941126:role/cdk-hnb659fds-deploy-role-449435941126-us-east-1
           role-session-name: GitHubActions-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_id }}
           role-duration-seconds: 1200
           
