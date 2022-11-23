@@ -7,15 +7,15 @@ on:
   push:
 
 env:
-  IMAGE_PATH_AND_TAG: ghcr.io/brucehoff/stopadforms:release-0.4
+  IMAGE_PATH_AND_TAG: ghcr.io/brucehoff/stopadforms:release-0.5
   AWS_DEFAULT_REGION: 'us-east-1' 
   PORT: 3838
   COST_CENTER: "NO PROGRAM / 000000"
   STACK_NAME_PREFIX: stopadforms
   R_CONFIG_ACTIVE: 'aws-testing'
-  HOSTED_ZONE_NAME: synapse.org
-  HOSTED_ZONE_ID: ZHAU99KV4A1WU
-  HOST_NAME: test.stopadforms-shiny.synapse.org
+  HOSTED_ZONE_NAME: dev.sagebase.org
+  HOSTED_ZONE_ID: Z28CDXGXBHW4TT
+  HOST_NAME: stopadforms.dev.sagebase.org
  
 
 jobs:
